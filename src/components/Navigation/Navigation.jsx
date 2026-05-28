@@ -7,9 +7,8 @@ function Navigation() {
       <Link className="navigation__link" to="/">
         Home
       </Link>
-
       <Link className="navigation__link" to="/colors">
-        Colors
+        Cores
       </Link>
     </nav>
   );
