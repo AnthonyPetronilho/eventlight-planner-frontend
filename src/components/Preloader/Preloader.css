@@ -1,0 +1,25 @@
+.preloader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.preloader__circle {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #8b3dff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.preloader__text {
+  color: #b8b8b8;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
