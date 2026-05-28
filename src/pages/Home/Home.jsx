@@ -1,6 +1,7 @@
 import Header from "../../components/Header/Header";
 import "./Home.css";
 import Button from "../../components/Button/Button";
+import FeatureCard from "../../components/FeatureCard/FeatureCard";
 
 function Home() {
   return (
@@ -22,6 +23,20 @@ function Home() {
             <Button text="Criar conta" type="primary" />
             <Button text="Explorar cores" type="secondary" />
           </div>
+        </section>
+        <section className="home__features">
+          <FeatureCard
+            title="Biblioteca pessoal"
+            description="Salve e organize suas cenas de iluminação em um só lugar"
+          />
+          <FeatureCard
+            title="Paletas de cores"
+            description="Explore combinações de cores para criar momentos mais marcantes"
+          />
+          <FeatureCard
+            title="Para qualquer evento"
+            description="Monte cenas para casamentos, festas, 15 anos e eventos corporativos"
+          />
         </section>
       </main>
     </>
