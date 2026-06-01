@@ -1,4 +1,5 @@
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import "./Login.css";
 
 function Login() {
@@ -11,6 +12,7 @@ function Login() {
           <span className="login__badge">Em desenvolvimento</span>
         </section>
       </main>
+      <Footer />
     </>
   );
 }

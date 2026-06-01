@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./ColorsPage.css";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import Preloader from "../../components/Preloader/Preloader";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import { getColor } from "../../utils/colorApi";
@@ -131,6 +132,7 @@ function ColorsPage() {
           )}
         </section>
       </main>
+      <Footer />
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import FeatureCard from "../../components/FeatureCard/FeatureCard";
 import ModalWithForm from "../../components/ModalWithForm/ModalWithForm";
@@ -82,6 +83,7 @@ function Home() {
           />
         </section>
       </main>
+      <Footer />
 
       <ModalWithForm
         isOpen={isRegisterModalOpen}
