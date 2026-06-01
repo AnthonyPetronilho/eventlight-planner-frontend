@@ -66,3 +66,10 @@
     margin-top: 80px;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .home__title {
+    font-size: 40px;
+    line-height: 1;
+  }
+}
