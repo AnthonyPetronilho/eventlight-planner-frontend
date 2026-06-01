@@ -1,0 +1,39 @@
+.login {
+  min-height: 100vh;
+  background: radial-gradient(
+    circle at top,
+    rgba(123, 47, 247, 0.15),
+    #070b14 45%
+  );
+}
+
+.login__container {
+  width: 90%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-top: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.login__title {
+  font-size: 72px;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.login__badge {
+  margin-top: 32px;
+  padding: 12px 20px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 768px) {
+  .login__title {
+    font-size: 48px;
+  }
+}

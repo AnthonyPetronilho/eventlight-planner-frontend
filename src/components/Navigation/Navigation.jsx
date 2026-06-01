@@ -10,6 +10,9 @@ function Navigation() {
       <Link className="navigation__link" to="/colors">
         Cores
       </Link>
+      <Link className="navigation__link" to="/login">
+        Entrar
+      </Link>
     </nav>
   );
 }
