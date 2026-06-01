@@ -3,6 +3,7 @@ import "./ColorsPage.css";
 
 import Header from "../../components/Header/Header";
 import Preloader from "../../components/Preloader/Preloader";
+import SearchForm from "../../components/SearchForm/SearchForm";
 import { getColor } from "../../utils/colorApi";
 
 function ColorsPage() {
@@ -11,7 +12,14 @@ function ColorsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSearch = async () => {
+  const handleInputChange = (e) => {
+    setHex(e.target.value);
+    setErrorMessage("");
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
     if (!hex.trim()) {
       setErrorMessage("Por favor, insira uma cor em HEX.");
       setColorData(null);
@@ -45,26 +53,17 @@ function ColorsPage() {
           <h1 className="colors-page__title">Explorar cores</h1>
 
           <p className="colors-page__subtitle">
-            Descubra paletas e combinações para seus eventos
+            Descubra paletas e combinações para seus eventos.
           </p>
 
-          <div className="colors-page__search">
-            <input
-              type="text"
-              placeholder="Ex: 00FFFF"
-              className="colors-page__input"
-              value={hex}
-              onChange={(e) => setHex(e.target.value)}
-            />
-
-            <button className="colors-page__button" onClick={handleSearch}>
-              Buscar
-            </button>
-          </div>
+          <SearchForm
+            value={hex}
+            onChange={handleInputChange}
+            onSubmit={handleSearch}
+            error={errorMessage}
+          />
 
           {isLoading && <Preloader />}
-
-          {errorMessage && <p className="colors-page__error">{errorMessage}</p>}
 
           {colorData && (
             <article className="colors-page__card">
