@@ -49,3 +49,24 @@
   margin-bottom: 8px;
   color: #b8b8b8;
 }
+
+.colors-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.colors-page__clear-button {
+  margin-bottom: 32px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.colors-page__clear-button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}

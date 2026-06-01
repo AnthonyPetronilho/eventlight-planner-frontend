@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./ColorsPage.css";
 
 import Header from "../../components/Header/Header";
@@ -8,9 +8,17 @@ import { getColor } from "../../utils/colorApi";
 
 function ColorsPage() {
   const [hex, setHex] = useState("");
-  const [colorData, setColorData] = useState(null);
+  const [colors, setColors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const savedColors = localStorage.getItem("colors");
+
+    if (savedColors) {
+      setColors(JSON.parse(savedColors));
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     setHex(e.target.value);
@@ -22,19 +30,26 @@ function ColorsPage() {
 
     if (!hex.trim()) {
       setErrorMessage("Por favor, insira uma cor em HEX.");
-      setColorData(null);
       return;
     }
 
     setIsLoading(true);
     setErrorMessage("");
-    setColorData(null);
 
     try {
       const cleanHex = hex.replace("#", "");
       const data = await getColor(cleanHex);
 
-      setColorData(data);
+      const filteredColors = colors.filter(
+        (color) => color.hex.value !== data.hex.value,
+      );
+
+      const updatedColors = [data, ...colors].slice(0, 20);
+
+      setColors(updatedColors);
+      localStorage.setItem("colors", JSON.stringify(updatedColors));
+
+      setHex("");
     } catch {
       setErrorMessage(
         "Desculpe, algo deu errado durante a solicitação. Pode haver um problema de conexão ou o servidor pode estar inativo. Por favor, tente novamente mais tarde.",
@@ -63,23 +78,42 @@ function ColorsPage() {
             error={errorMessage}
           />
 
+          {colors.length > 0 && (
+            <button
+              className="colors-page__clear-button"
+              onClick={() => {
+                setColors([]);
+                localStorage.removeItem("colors");
+              }}
+            >
+              Limpar histórico
+            </button>
+          )}
+
           {isLoading && <Preloader />}
 
-          {colorData && (
-            <article className="colors-page__card">
-              <div
-                className="colors-page__preview"
-                style={{ backgroundColor: colorData.hex.value }}
-              ></div>
+          {colors.length > 0 && (
+            <section className="colors-page__grid">
+              {colors.map((color, index) => (
+                <article
+                  key={`${color.hex.value}-${index}`}
+                  className="colors-page__card"
+                >
+                  <div
+                    className="colors-page__preview"
+                    style={{ backgroundColor: color.hex.value }}
+                  ></div>
 
-              <div className="colors-page__info">
-                <h2>{colorData.name.value}</h2>
-                <p>{colorData.hex.value}</p>
-                <p>
-                  rgb({colorData.rgb.r}, {colorData.rgb.g}, {colorData.rgb.b})
-                </p>
-              </div>
-            </article>
+                  <div className="colors-page__info">
+                    <h2>{color.name.value}</h2>
+                    <p>{color.hex.value}</p>
+                    <p>
+                      rgb({color.rgb.r}, {color.rgb.g}, {color.rgb.b})
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </section>
           )}
         </section>
       </main>
