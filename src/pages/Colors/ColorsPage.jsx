@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./ColorsPage.css";
-
 import Header from "../../components/Header/Header";
 import Preloader from "../../components/Preloader/Preloader";
 import SearchForm from "../../components/SearchForm/SearchForm";
@@ -9,6 +8,7 @@ import { getColor } from "../../utils/colorApi";
 function ColorsPage() {
   const [hex, setHex] = useState("");
   const [colors, setColors] = useState([]);
+  const [visibleCards, setVisibleCards] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -59,6 +59,10 @@ function ColorsPage() {
     }
   };
 
+  const handleShowMore = () => {
+    setVisibleCards((currentValue) => currentValue + 3);
+  };
+
   return (
     <>
       <Header />
@@ -94,7 +98,7 @@ function ColorsPage() {
 
           {colors.length > 0 && (
             <section className="colors-page__grid">
-              {colors.map((color, index) => (
+              {colors.slice(0, visibleCards).map((color, index) => (
                 <article
                   key={`${color.hex.value}-${index}`}
                   className="colors-page__card"
@@ -114,6 +118,16 @@ function ColorsPage() {
                 </article>
               ))}
             </section>
+          )}
+
+          {colors.length > visibleCards && (
+            <button
+              className="colors-page__show-more-button"
+              type="button"
+              onClick={handleShowMore}
+            >
+              Mostrar mais
+            </button>
           )}
         </section>
       </main>
