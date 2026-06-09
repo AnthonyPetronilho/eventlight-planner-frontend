@@ -21,7 +21,7 @@ function ModalWithForm({ isOpen, title, buttonText, onClose, children }) {
 
         <h2 className="modal__title">{title}</h2>
 
-        <form className="modal__form">
+        <form className="modal__form" onSubmit={(e) => e.preventDefault()}>
           {children}
 
           <button className="modal__submit-button" type="submit">
