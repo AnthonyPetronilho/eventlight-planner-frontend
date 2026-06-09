@@ -11,7 +11,7 @@ function Footer() {
         <nav className="footer__links">
           <a
             className="footer__link"
-            href="https://www.linkedin.com/in/anthonypsouza/.com/"
+            href="https://www.linkedin.com/in/anthonypsouza/"
             target="_blank"
             rel="noreferrer"
           >

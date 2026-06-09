@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./ColorsPage.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -8,19 +8,17 @@ import { getColor } from "../../utils/colorApi";
 
 function ColorsPage() {
   const [hex, setHex] = useState("");
-  const [colors, setColors] = useState([]);
+
+  const [colors, setColors] = useState(() => {
+    const savedColors = localStorage.getItem("colors");
+
+    return savedColors ? JSON.parse(savedColors) : [];
+  });
+
   const [visibleCards, setVisibleCards] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [notFoundMessage, setNotFoundMessage] = useState("");
-
-  useEffect(() => {
-    const savedColors = localStorage.getItem("colors");
-
-    if (savedColors) {
-      setColors(JSON.parse(savedColors));
-    }
-  }, []);
 
   const handleInputChange = (e) => {
     setHex(e.target.value);
