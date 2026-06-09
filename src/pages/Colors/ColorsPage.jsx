@@ -12,6 +12,7 @@ function ColorsPage() {
   const [visibleCards, setVisibleCards] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [notFoundMessage, setNotFoundMessage] = useState("");
 
   useEffect(() => {
     const savedColors = localStorage.getItem("colors");
@@ -24,6 +25,7 @@ function ColorsPage() {
   const handleInputChange = (e) => {
     setHex(e.target.value);
     setErrorMessage("");
+    setNotFoundMessage("");
   };
 
   const handleSearch = async (e) => {
@@ -41,11 +43,16 @@ function ColorsPage() {
       const cleanHex = hex.replace("#", "");
       const data = await getColor(cleanHex);
 
+      if (!data || !data.hex || !data.name) {
+        setNotFoundMessage("Nada encontrado.");
+        return;
+      }
+
       const filteredColors = colors.filter(
         (color) => color.hex.value !== data.hex.value,
       );
 
-      const updatedColors = [data, ...colors].slice(0, 20);
+      const updatedColors = [data, ...filteredColors].slice(0, 20);
 
       setColors(updatedColors);
       localStorage.setItem("colors", JSON.stringify(updatedColors));
@@ -96,6 +103,10 @@ function ColorsPage() {
           )}
 
           {isLoading && <Preloader />}
+
+          {notFoundMessage && (
+            <p className="colors-page__not-found">{notFoundMessage}</p>
+          )}
 
           {colors.length > 0 && (
             <section className="colors-page__grid">

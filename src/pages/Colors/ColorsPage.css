@@ -90,3 +90,12 @@
   transform: translateY(-2px);
   opacity: 0.9;
 }
+
+.colors-page__not-found {
+  max-width: 700px;
+  margin-bottom: 32px;
+
+  color: #b8b8b8;
+  font-size: 18px;
+  line-height: 1.5;
+}
