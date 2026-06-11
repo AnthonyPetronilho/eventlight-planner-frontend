@@ -8,7 +8,7 @@ import ModalWithForm from "../../components/ModalWithForm/ModalWithForm";
 
 import "./Home.css";
 
-function Home() {
+function Home({ isLoggedIn, onLogout }) {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ function Home() {
 
   return (
     <>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} onLogout={onLogout} />
       <main className="home">
         <section className="home__hero">
           <h1 className="home__title">
