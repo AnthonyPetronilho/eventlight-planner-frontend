@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
 function Register({
@@ -23,18 +23,6 @@ function Register({
     name.length <= 30 &&
     email.includes("@") &&
     password.length >= 8;
-
-  useEffect(() => {
-    if (!isOpen) {
-      setName("");
-      setEmail("");
-      setPassword("");
-      setNameError("");
-      setEmailError("");
-      setPasswordError("");
-      setServerError("");
-    }
-  }, [isOpen]);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
