@@ -8,7 +8,7 @@ import ModalWithForm from "../../components/ModalWithForm/ModalWithForm";
 
 import "./Home.css";
 
-function Home({ isLoggedIn, onLogout }) {
+function Home({ isLoggedIn, onRegister, onLogout }) {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -23,6 +23,26 @@ function Home({ isLoggedIn, onLogout }) {
 
   const closeModal = () => {
     setIsRegisterModalOpen(false);
+  };
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+
+    onRegister({ name, email, password })
+      .then(() => {
+        setName("");
+        setEmail("");
+        setPassword("");
+        closeModal();
+        navigate("/library");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   useEffect(() => {
@@ -90,10 +110,35 @@ function Home({ isLoggedIn, onLogout }) {
         title="Criar conta"
         buttonText="Cadastrar"
         onClose={closeModal}
+        onSubmit={handleRegisterSubmit}
       >
-        <input className="modal__input" type="text" placeholder="Nome" />
-        <input className="modal__input" type="email" placeholder="E-mail" />
-        <input className="modal__input" type="password" placeholder="Senha" />
+        <input
+          className="modal__input"
+          type="text"
+          placeholder="Nome"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          minLength="2"
+          maxLength="30"
+        />
+        <input
+          className="modal__input"
+          type="email"
+          placeholder="E-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          className="modal__input"
+          type="password"
+          placeholder="Senha"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          minLength="8"
+        />
       </ModalWithForm>
     </>
   );

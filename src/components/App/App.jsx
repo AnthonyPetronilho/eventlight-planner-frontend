@@ -10,7 +10,7 @@ import NotFound from "../../pages/NotFound/NotFound";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-import { getCurrentUser, login, register } from "../../utils/auth";
+import { getCurrentUser, login, register } from "../../utils/MainApi";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
