@@ -10,15 +10,19 @@ function Login({ isLoggedIn, onLogin }) {
 
   const navigate = useNavigate();
 
+  const [serverError, setServerError] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setServerError("");
 
     onLogin({ email, password })
       .then(() => {
         navigate("/library");
       })
       .catch((err) => {
-        console.error(err);
+        setServerError(err);
       });
   };
 
@@ -53,6 +57,8 @@ function Login({ isLoggedIn, onLogin }) {
               required
               minLength="8"
             />
+
+            {serverError && <span className="login__error">{serverError}</span>}
 
             <button className="login__button" type="submit">
               Fazer login

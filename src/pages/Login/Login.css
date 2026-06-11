@@ -64,6 +64,12 @@
   cursor: pointer;
 }
 
+.login__error {
+  color: #ff6b6b;
+  text-align: center;
+  font-size: 14px;
+}
+
 @media screen and (max-width: 768px) {
   .login__title {
     font-size: 48px;
