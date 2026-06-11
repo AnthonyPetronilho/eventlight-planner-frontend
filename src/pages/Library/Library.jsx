@@ -2,10 +2,14 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import "./Library.css";
 
-function Library() {
+function Library({ isLoggedIn, onLogout, onLoginClick }) {
   return (
     <>
-      <Header />
+      <Header
+        isLoggedIn={isLoggedIn}
+        onLogout={onLogout}
+        onLoginClick={onLoginClick}
+      />
 
       <main className="library">
         <section className="library__container">

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Navigation.css";
 
-function Navigation({ isLoggedIn, onLogout }) {
+function Navigation({ isLoggedIn, onLogout, onLoginClick }) {
   return (
     <nav className="navigation">
       <Link className="navigation__link" to="/">
@@ -23,9 +23,13 @@ function Navigation({ isLoggedIn, onLogout }) {
           Sair
         </button>
       ) : (
-        <Link className="navigation__link" to="/login">
+        <button
+          className="navigation__button"
+          type="button"
+          onClick={onLoginClick}
+        >
           Entrar
-        </Link>
+        </button>
       )}
     </nav>
   );

@@ -6,7 +6,7 @@ import Preloader from "../../components/Preloader/Preloader";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import { getColor } from "../../utils/colorApi";
 
-function ColorsPage() {
+function ColorsPage({ isLoggedIn, onLogout, onLoginClick }) {
   const [hex, setHex] = useState("");
 
   const [colors, setColors] = useState(() => {
@@ -71,7 +71,11 @@ function ColorsPage() {
 
   return (
     <>
-      <Header />
+      <Header
+        isLoggedIn={isLoggedIn}
+        onLogout={onLogout}
+        onLoginClick={onLoginClick}
+      />
 
       <main className="colors-page">
         <section className="colors-page__hero">

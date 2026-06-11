@@ -1,60 +1,26 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import FeatureCard from "../../components/FeatureCard/FeatureCard";
-import Register from "../../components/Register/Register";
-import SuccessModal from "../../components/SuccessModal/SuccessModal";
 
 import "./Home.css";
 
-function Home({ isLoggedIn, onRegister, onLogout }) {
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-
+function Home({ isLoggedIn, onLogout, onLoginClick, onRegisterClick }) {
   const navigate = useNavigate();
 
   const handleGoToColors = () => {
     navigate("/colors");
   };
 
-  const openRegisterModal = () => {
-    setIsRegisterModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsRegisterModalOpen(false);
-  };
-
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-
-  const openSuccessModal = () => {
-    setIsSuccessModalOpen(true);
-  };
-
-  const closeSuccessModal = () => {
-    setIsSuccessModalOpen(false);
-  };
-
-  useEffect(() => {
-    if (!isRegisterModalOpen) return undefined;
-
-    const handleEscClose = (e) => {
-      if (e.key === "Escape") {
-        closeModal();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscClose);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscClose);
-    };
-  }, [isRegisterModalOpen]);
-
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} onLogout={onLogout} />
+      <Header
+        isLoggedIn={isLoggedIn}
+        onLogout={onLogout}
+        onLoginClick={onLoginClick}
+      />
 
       <main className="home">
         <section className="home__hero">
@@ -72,7 +38,7 @@ function Home({ isLoggedIn, onRegister, onLogout }) {
             <Button
               text="Criar conta"
               type="primary"
-              onClick={openRegisterModal}
+              onClick={onRegisterClick}
             />
 
             <Button
@@ -102,27 +68,6 @@ function Home({ isLoggedIn, onRegister, onLogout }) {
       </main>
 
       <Footer />
-      <Register
-        isOpen={isRegisterModalOpen}
-        onClose={closeModal}
-        onRegister={onRegister}
-        onRegisterSuccess={() => {
-          closeModal();
-          openSuccessModal();
-        }}
-        onSwitchToLogin={() => {
-          closeModal();
-          navigate("/login");
-        }}
-      />
-      <SuccessModal
-        isOpen={isSuccessModalOpen}
-        onClose={closeSuccessModal}
-        onLoginClick={() => {
-          closeSuccessModal();
-          navigate("/login");
-        }}
-      />
     </>
   );
 }
