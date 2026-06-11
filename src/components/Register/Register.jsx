@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-function Register({ isOpen, onClose, onRegister, onSwitchToLogin }) {
+function Register({
+  isOpen,
+  onClose,
+  onRegister,
+  onSwitchToLogin,
+  onRegisterSuccess,
+}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,6 +16,7 @@ function Register({ isOpen, onClose, onRegister, onSwitchToLogin }) {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [serverError, setServerError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const isFormValid =
     name.length >= 2 &&
@@ -70,16 +77,22 @@ function Register({ isOpen, onClose, onRegister, onSwitchToLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setServerError("");
+    setIsLoading(true);
+
     onRegister({ name, email, password })
       .then(() => {
         setName("");
         setEmail("");
         setPassword("");
         setServerError("");
-        onSwitchToLogin();
+        onRegisterSuccess();
       })
       .catch((err) => {
         setServerError(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -87,10 +100,10 @@ function Register({ isOpen, onClose, onRegister, onSwitchToLogin }) {
     <ModalWithForm
       isOpen={isOpen}
       title="Inscreva-se"
-      buttonText="Inscreva-se"
+      buttonText={isLoading ? "Cadastrando..." : "Inscreva-se"}
       onClose={onClose}
       onSubmit={handleSubmit}
-      isSubmitDisabled={!isFormValid}
+      isSubmitDisabled={!isFormValid || isLoading}
       footerText="Entrar"
       onFooterClick={onSwitchToLogin}
     >

@@ -5,6 +5,7 @@ import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import FeatureCard from "../../components/FeatureCard/FeatureCard";
 import Register from "../../components/Register/Register";
+import SuccessModal from "../../components/SuccessModal/SuccessModal";
 
 import "./Home.css";
 
@@ -23,6 +24,16 @@ function Home({ isLoggedIn, onRegister, onLogout }) {
 
   const closeModal = () => {
     setIsRegisterModalOpen(false);
+  };
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  const openSuccessModal = () => {
+    setIsSuccessModalOpen(true);
+  };
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
   };
 
   useEffect(() => {
@@ -95,8 +106,20 @@ function Home({ isLoggedIn, onRegister, onLogout }) {
         isOpen={isRegisterModalOpen}
         onClose={closeModal}
         onRegister={onRegister}
+        onRegisterSuccess={() => {
+          closeModal();
+          openSuccessModal();
+        }}
         onSwitchToLogin={() => {
           closeModal();
+          navigate("/login");
+        }}
+      />
+      <SuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={closeSuccessModal}
+        onLoginClick={() => {
+          closeSuccessModal();
           navigate("/login");
         }}
       />
