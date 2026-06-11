@@ -5,7 +5,9 @@ const checkResponse = (res) => {
     return res.json();
   }
 
-  return Promise.reject(`Erro: ${res.status}`);
+  return res.json().then((data) => {
+    return Promise.reject(data.message || `Erro: ${res.status}`);
+  });
 };
 
 export const register = ({ email, password, name }) => {

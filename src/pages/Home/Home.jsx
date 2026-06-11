@@ -4,7 +4,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import FeatureCard from "../../components/FeatureCard/FeatureCard";
-import ModalWithForm from "../../components/ModalWithForm/ModalWithForm";
+import Register from "../../components/Register/Register";
 
 import "./Home.css";
 
@@ -25,28 +25,8 @@ function Home({ isLoggedIn, onRegister, onLogout }) {
     setIsRegisterModalOpen(false);
   };
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleRegisterSubmit = (e) => {
-    e.preventDefault();
-
-    onRegister({ name, email, password })
-      .then(() => {
-        setName("");
-        setEmail("");
-        setPassword("");
-        closeModal();
-        navigate("/library");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
   useEffect(() => {
-    if (!isRegisterModalOpen) return;
+    if (!isRegisterModalOpen) return undefined;
 
     const handleEscClose = (e) => {
       if (e.key === "Escape") {
@@ -64,6 +44,7 @@ function Home({ isLoggedIn, onRegister, onLogout }) {
   return (
     <>
       <Header isLoggedIn={isLoggedIn} onLogout={onLogout} />
+
       <main className="home">
         <section className="home__hero">
           <h1 className="home__title">
@@ -71,15 +52,18 @@ function Home({ isLoggedIn, onRegister, onLogout }) {
             <br />
             Crie momentos
           </h1>
+
           <p className="home__subtitle">
             Organize cenas de iluminação para qualquer tipo de evento
           </p>
+
           <div className="home__buttons">
             <Button
               text="Criar conta"
               type="primary"
               onClick={openRegisterModal}
             />
+
             <Button
               text="Explorar cores"
               type="secondary"
@@ -93,53 +77,29 @@ function Home({ isLoggedIn, onRegister, onLogout }) {
             title="Biblioteca pessoal"
             description="Salve e organize suas cenas de iluminação em um só lugar"
           />
+
           <FeatureCard
             title="Paletas de cores"
             description="Explore combinações de cores para criar momentos mais marcantes"
           />
+
           <FeatureCard
             title="Para qualquer evento"
             description="Monte cenas para casamentos, festas, 15 anos e eventos corporativos"
           />
         </section>
       </main>
-      <Footer />
 
-      <ModalWithForm
+      <Footer />
+      <Register
         isOpen={isRegisterModalOpen}
-        title="Criar conta"
-        buttonText="Cadastrar"
         onClose={closeModal}
-        onSubmit={handleRegisterSubmit}
-      >
-        <input
-          className="modal__input"
-          type="text"
-          placeholder="Nome"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          minLength="2"
-          maxLength="30"
-        />
-        <input
-          className="modal__input"
-          type="email"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          className="modal__input"
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength="8"
-        />
-      </ModalWithForm>
+        onRegister={onRegister}
+        onSwitchToLogin={() => {
+          closeModal();
+          navigate("/login");
+        }}
+      />
     </>
   );
 }

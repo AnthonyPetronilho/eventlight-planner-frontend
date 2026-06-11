@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "../../pages/Home/Home";
 import Login from "../../pages/Login/Login";
 import ColorsPage from "../../pages/Colors/ColorsPage";
@@ -36,9 +35,7 @@ function App() {
   }, []);
 
   const handleRegister = ({ email, password, name }) => {
-    return register({ email, password, name }).then(() =>
-      handleLogin({ email, password }),
-    );
+    return register({ email, password, name });
   };
 
   const handleLogin = ({ email, password }) => {
