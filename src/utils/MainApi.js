@@ -38,3 +38,31 @@ export const getCurrentUser = (token) => {
     },
   }).then(checkResponse);
 };
+
+export const getScenes = (token) => {
+  return fetch(`${BASE_URL}/scenes`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
+};
+
+export const createScene = (sceneData, token) => {
+  return fetch(`${BASE_URL}/scenes`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(sceneData),
+  }).then(checkResponse);
+};
+
+export const deleteScene = (sceneId, token) => {
+  return fetch(`${BASE_URL}/scenes/${sceneId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
+};

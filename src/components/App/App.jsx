@@ -116,7 +116,11 @@ function App() {
             path="/library"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
-                <Library />
+                <Library
+                  isLoggedIn={isLoggedIn}
+                  onLogout={handleLogout}
+                  onLoginClick={openLoginModal}
+                />
               </ProtectedRoute>
             }
           />
