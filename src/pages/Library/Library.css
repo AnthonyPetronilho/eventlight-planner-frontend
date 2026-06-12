@@ -55,13 +55,43 @@
   outline: none;
 }
 
+.library__form select {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.55);
+  outline: none;
+}
+
+.library__form-select-wrapper {
+  position: relative;
+}
+
+.library__form-select-wrapper::after {
+  content: "⌄";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ffffff;
+  pointer-events: none;
+}
+
 .library__form input::placeholder,
 .library__form textarea::placeholder {
   color: rgba(255, 255, 255, 0.55);
 }
 
+.library__form select option {
+  background: #10151f;
+  color: rgba(255, 255, 255, 0.55);
+}
+
 .library__form input:focus,
-.library__form textarea:focus {
+.library__form textarea:focus,
+.library__form select:focus {
   border-color: rgba(155, 77, 255, 0.9);
 }
 
@@ -128,6 +158,33 @@
   margin: 0;
   font-size: 28px;
   line-height: 1.2;
+}
+
+.library__card-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.library__edit-button {
+  padding: 12px 18px;
+  border: 1px solid rgba(123, 47, 247, 0.35);
+  border-radius: 12px;
+  background: rgba(123, 47, 247, 0.15);
+  color: #c9a8ff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.library__edit-button:hover {
+  background: rgba(123, 47, 247, 0.25);
+  border-color: rgba(123, 47, 247, 0.6);
+  transform: translateY(-2px);
+}
+
+.library__edit-button:active {
+  transform: translateY(0);
 }
 
 .library__delete-button {

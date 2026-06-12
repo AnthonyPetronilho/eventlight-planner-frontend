@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import "./SceneForm.css";
 
-function SceneForm({ onCreateScene }) {
+function SceneForm({
+  onSubmit,
+  initialData = null,
+  submitText = "Salvar cena",
+}) {
   const [title, setTitle] = useState("");
   const [eventType, setEventType] = useState("");
   const [moment, setMoment] = useState("");
@@ -10,27 +15,42 @@ function SceneForm({ onCreateScene }) {
   const [intensity, setIntensity] = useState("");
   const [notes, setNotes] = useState("");
 
+  useEffect(() => {
+    if (!initialData) return;
+
+    setTitle(initialData.title || "");
+    setEventType(initialData.eventType || "");
+    setMoment(initialData.moment || "");
+    setColors(initialData.colors?.join(", ") || "");
+    setFixtures(initialData.fixtures?.join(", ") || "");
+    setMovement(initialData.movement || "");
+    setIntensity(initialData.intensity || "");
+    setNotes(initialData.notes || "");
+  }, [initialData]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    onCreateScene({
+    onSubmit({
       title,
       eventType,
       moment,
-      colors: colors.split(",").map((color) => color.trim()),
-      fixtures: fixtures.split(",").map((fixture) => fixture.trim()),
+      colors: colors.split(",").map((item) => item.trim()),
+      fixtures: fixtures.split(",").map((item) => item.trim()),
       movement,
       intensity,
       notes,
     }).then(() => {
-      setTitle("");
-      setEventType("");
-      setMoment("");
-      setColors("");
-      setFixtures("");
-      setMovement("");
-      setIntensity("");
-      setNotes("");
+      if (!initialData) {
+        setTitle("");
+        setEventType("");
+        setMoment("");
+        setColors("");
+        setFixtures("");
+        setMovement("");
+        setIntensity("");
+        setNotes("");
+      }
     });
   };
 
@@ -44,49 +64,65 @@ function SceneForm({ onCreateScene }) {
         minLength="2"
         maxLength="60"
       />
-      <input
-        value={eventType}
-        onChange={(e) => setEventType(e.target.value)}
-        placeholder="Tipo de evento"
-        required
-      />
+      <div className="library__form-select-wrapper">
+        <select
+          value={eventType}
+          onChange={(e) => setEventType(e.target.value)}
+          required
+        >
+          <option value="">Tipo de evento</option>
+          <option value="Casamento">Casamento</option>
+          <option value="15 Anos">15 Anos</option>
+          <option value="Corporativo">Corporativo</option>
+          <option value="Show">Show</option>
+          <option value="Formatura">Formatura</option>
+        </select>
+      </div>
+
       <input
         value={moment}
         onChange={(e) => setMoment(e.target.value)}
         placeholder="Momento"
         required
       />
+
       <input
         value={colors}
         onChange={(e) => setColors(e.target.value)}
         placeholder="Cores separadas por vírgula"
         required
       />
+
       <input
         value={fixtures}
         onChange={(e) => setFixtures(e.target.value)}
         placeholder="Equipamentos separados por vírgula"
         required
       />
-      <input
-        value={movement}
-        onChange={(e) => setMovement(e.target.value)}
-        placeholder="Movimento"
-        required
-      />
-      <input
-        value={intensity}
-        onChange={(e) => setIntensity(e.target.value)}
-        placeholder="Intensidade"
-        required
-      />
+
+      <select value={movement} onChange={(e) => setMovement(e.target.value)}>
+        <option value="">Movimento</option>
+        <option value="Parado">Parado</option>
+        <option value="Lento">Lento</option>
+        <option value="Médio">Médio</option>
+        <option value="Rápido">Rápido</option>
+      </select>
+
+      <select value={intensity} onChange={(e) => setIntensity(e.target.value)}>
+        <option value="">Intensidade</option>
+        <option value="Baixa">Baixa</option>
+        <option value="Média">Média</option>
+        <option value="Alta">Alta</option>
+        <option value="Máxima">Máxima</option>
+      </select>
+
       <textarea
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
         placeholder="Observações"
       />
 
-      <button type="submit">Salvar cena</button>
+      <button type="submit">{submitText}</button>
     </form>
   );
 }

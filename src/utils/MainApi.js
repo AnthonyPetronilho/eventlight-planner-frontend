@@ -58,6 +58,17 @@ export const createScene = (sceneData, token) => {
   }).then(checkResponse);
 };
 
+export const updateScene = (sceneId, sceneData, token) => {
+  return fetch(`${BASE_URL}/scenes/${sceneId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(sceneData),
+  }).then(checkResponse);
+};
+
 export const deleteScene = (sceneId, token) => {
   return fetch(`${BASE_URL}/scenes/${sceneId}`, {
     method: "DELETE",

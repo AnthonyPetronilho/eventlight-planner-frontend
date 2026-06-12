@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
-
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import SceneForm from "../../components/SceneForm/SceneForm";
-
-import { createScene, deleteScene, getScenes } from "../../utils/MainApi";
-
+import {
+  createScene,
+  deleteScene,
+  getScenes,
+  updateScene,
+} from "../../utils/MainApi";
+import EditSceneModal from "../../components/EditSceneModal/EditSceneModal";
 import "./Library.css";
 
 function Library({ isLoggedIn, onLogout, onLoginClick }) {
   const [scenes, setScenes] = useState([]);
   const [error, setError] = useState("");
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedScene, setSelectedScene] = useState(null);
 
   const token = localStorage.getItem("jwt");
 
@@ -22,7 +28,7 @@ function Library({ isLoggedIn, onLogout, onLoginClick }) {
         setScenes(data);
       })
       .catch((err) => {
-        setError(err);
+        setError(err.message || String(err));
       });
   }, [token]);
 
@@ -33,7 +39,26 @@ function Library({ isLoggedIn, onLogout, onLoginClick }) {
         setError("");
       })
       .catch((err) => {
-        setError(err);
+        setError(err.message || String(err));
+      });
+  };
+
+  const handleEditScene = (scene) => {
+    setSelectedScene(scene);
+    setIsEditModalOpen(true);
+  };
+  const handleUpdateScene = (sceneId, sceneData) => {
+    return updateScene(sceneId, sceneData, token)
+      .then((updatedScene) => {
+        setScenes(
+          scenes.map((scene) => (scene._id === sceneId ? updatedScene : scene)),
+        );
+        setSelectedScene(null);
+        setIsEditModalOpen(false);
+        setError("");
+      })
+      .catch((err) => {
+        setError(err.message || String(err));
       });
   };
 
@@ -44,7 +69,7 @@ function Library({ isLoggedIn, onLogout, onLoginClick }) {
         setError("");
       })
       .catch((err) => {
-        setError(err);
+        setError(err.message || String(err));
       });
   };
 
@@ -62,7 +87,7 @@ function Library({ isLoggedIn, onLogout, onLoginClick }) {
 
           <p className="library__subtitle">Aqui ficarão salvas suas cenas.</p>
 
-          <SceneForm onCreateScene={handleCreateScene} />
+          <SceneForm onSubmit={handleCreateScene} submitText="Salvar cena" />
 
           {error && <p className="library__error">{error}</p>}
 
@@ -72,13 +97,23 @@ function Library({ isLoggedIn, onLogout, onLoginClick }) {
                 <div className="library__card-header">
                   <h2 className="library__card-title">{scene.title}</h2>
 
-                  <button
-                    className="library__delete-button"
-                    type="button"
-                    onClick={() => handleDeleteScene(scene._id)}
-                  >
-                    Excluir
-                  </button>
+                  <div className="library__card-actions">
+                    <button
+                      className="library__edit-button"
+                      type="button"
+                      onClick={() => handleEditScene(scene)}
+                    >
+                      Editar
+                    </button>
+
+                    <button
+                      className="library__delete-button"
+                      type="button"
+                      onClick={() => handleDeleteScene(scene._id)}
+                    >
+                      Excluir
+                    </button>
+                  </div>
                 </div>
 
                 <div className="library__card-content">
@@ -139,6 +174,16 @@ function Library({ isLoggedIn, onLogout, onLoginClick }) {
           </ul>
         </section>
       </main>
+
+      <EditSceneModal
+        isOpen={isEditModalOpen}
+        scene={selectedScene}
+        onClose={() => {
+          setSelectedScene(null);
+          setIsEditModalOpen(false);
+        }}
+        onUpdateScene={handleUpdateScene}
+      />
 
       <Footer />
     </>
