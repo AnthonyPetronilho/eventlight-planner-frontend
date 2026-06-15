@@ -69,7 +69,9 @@ function App() {
   }, []);
 
   const handleRegister = ({ email, password, name }) => {
-    return register({ email, password, name });
+    return register({ email, password, name }).then(() =>
+      handleLogin({ email, password }),
+    );
   };
 
   const handleLogin = ({ email, password }) => {
@@ -148,7 +150,9 @@ function App() {
           isOpen={isRegisterModalOpen}
           onClose={closeAllModals}
           onRegister={handleRegister}
-          onRegisterSuccess={openSuccessModal}
+          onRegisterSuccess={() => {
+            closeAllModals();
+          }}
           onSwitchToLogin={openLoginModal}
         />
 
