@@ -85,7 +85,9 @@ function Library({ isLoggedIn, onLogout, onLoginClick }) {
         <section className="library__container">
           <h1 className="library__title">Biblioteca pessoal</h1>
 
-          <p className="library__subtitle">Aqui ficarão salvas suas cenas.</p>
+          <p className="library__subtitle">
+            Salve aqui as suas cenas preferidas
+          </p>
 
           <SceneForm onSubmit={handleCreateScene} submitText="Salvar cena" />
 
