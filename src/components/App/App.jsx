@@ -18,6 +18,7 @@ import { getCurrentUser, login, register } from "../../utils/MainApi";
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isCheckingToken, setIsCheckingToken] = useState(true);
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -48,6 +49,7 @@ function App() {
     const token = localStorage.getItem("jwt");
 
     if (!token) {
+      setIsCheckingToken(false);
       return;
     }
 
@@ -60,6 +62,9 @@ function App() {
         localStorage.removeItem("jwt");
         setCurrentUser(null);
         setIsLoggedIn(false);
+      })
+      .finally(() => {
+        setIsCheckingToken(false);
       });
   }, []);
 
@@ -115,7 +120,11 @@ function App() {
           <Route
             path="/library"
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn}>
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                isCheckingToken={isCheckingToken}
+                onUnauthorized={openLoginModal}
+              >
                 <Library
                   isLoggedIn={isLoggedIn}
                   onLogout={handleLogout}

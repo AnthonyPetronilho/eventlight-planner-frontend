@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -35,11 +35,19 @@ function Home({ isLoggedIn, onLogout, onLoginClick, onRegisterClick }) {
           </p>
 
           <div className="home__buttons">
-            <Button
-              text="Criar conta"
-              type="primary"
-              onClick={onRegisterClick}
-            />
+            {isLoggedIn ? (
+              <Button
+                text="Ir para biblioteca"
+                type="primary"
+                onClick={() => navigate("/library")}
+              />
+            ) : (
+              <Button
+                text="Criar conta"
+                type="primary"
+                onClick={onRegisterClick}
+              />
+            )}
 
             <Button
               text="Explorar cores"
@@ -50,20 +58,26 @@ function Home({ isLoggedIn, onLogout, onLoginClick, onRegisterClick }) {
         </section>
 
         <section className="home__features">
-          <FeatureCard
-            title="Biblioteca pessoal"
-            description="Salve e organize suas cenas de iluminação em um só lugar"
-          />
+          <Link className="home__feature-link" to="/library">
+            <FeatureCard
+              title="Biblioteca pessoal"
+              description="Salve e organize suas cenas de iluminação em um só lugar"
+            />
+          </Link>
 
-          <FeatureCard
-            title="Paletas de cores"
-            description="Explore combinações de cores para criar momentos mais marcantes"
-          />
+          <Link className="home__feature-link" to="/colors">
+            <FeatureCard
+              title="Paletas de cores"
+              description="Explore combinações de cores para criar momentos mais marcantes"
+            />
+          </Link>
 
-          <FeatureCard
-            title="Para qualquer evento"
-            description="Monte cenas para casamentos, festas, 15 anos e eventos corporativos"
-          />
+          <Link className="home__feature-link" to="/library">
+            <FeatureCard
+              title="Para qualquer evento"
+              description="Monte cenas para casamentos, festas, 15 anos e eventos corporativos"
+            />
+          </Link>
         </section>
       </main>
 
