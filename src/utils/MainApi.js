@@ -77,3 +77,31 @@ export const deleteScene = (sceneId, token) => {
     },
   }).then(checkResponse);
 };
+
+export const getSavedColors = (token) => {
+  return fetch(`${BASE_URL}/colors`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
+};
+
+export const saveColor = (colorData, token) => {
+  return fetch(`${BASE_URL}/colors`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(colorData),
+  }).then(checkResponse);
+};
+
+export const deleteSavedColor = (colorId, token) => {
+  return fetch(`${BASE_URL}/colors/${colorId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
+};

@@ -1,24 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import "./ColorsPage.css";
+
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Preloader from "../../components/Preloader/Preloader";
 import SearchForm from "../../components/SearchForm/SearchForm";
+
 import { getColor } from "../../utils/colorApi";
+import {
+  deleteSavedColor,
+  getSavedColors,
+  saveColor,
+} from "../../utils/MainApi";
 
 function ColorsPage({ isLoggedIn, onLogout, onLoginClick }) {
   const [hex, setHex] = useState("");
-
-  const [colors, setColors] = useState(() => {
-    const savedColors = localStorage.getItem("colors");
-
-    return savedColors ? JSON.parse(savedColors) : [];
-  });
-
+  const [colors, setColors] = useState([]);
   const [visibleCards, setVisibleCards] = useState(3);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [notFoundMessage, setNotFoundMessage] = useState("");
+
+  const token = localStorage.getItem("jwt");
+
+  useEffect(() => {
+    if (!isLoggedIn || !token) {
+      setColors([]);
+      return;
+    }
+
+    getSavedColors(token)
+      .then((savedColors) => {
+        setColors(savedColors);
+      })
+      .catch(() => {
+        setErrorMessage("Não foi possível carregar seu histórico de cores.");
+      });
+  }, [isLoggedIn, token]);
 
   const handleInputChange = (e) => {
     setHex(e.target.value);
@@ -34,6 +53,11 @@ function ColorsPage({ isLoggedIn, onLogout, onLoginClick }) {
       return;
     }
 
+    if (!isLoggedIn || !token) {
+      setErrorMessage("Faça login para salvar seu histórico de cores.");
+      return;
+    }
+
     setIsLoading(true);
     setErrorMessage("");
 
@@ -46,23 +70,47 @@ function ColorsPage({ isLoggedIn, onLogout, onLoginClick }) {
         return;
       }
 
-      const filteredColors = colors.filter(
-        (color) => color.hex.value !== data.hex.value,
+      const savedColor = await saveColor(
+        {
+          hex: data.hex.value,
+          name: data.name.value,
+        },
+        token,
       );
 
-      const updatedColors = [data, ...filteredColors].slice(0, 20);
+      const filteredColors = colors.filter(
+        (color) => color.hex !== savedColor.hex,
+      );
 
-      setColors(updatedColors);
-      localStorage.setItem("colors", JSON.stringify(updatedColors));
-
+      setColors([savedColor, ...filteredColors].slice(0, 20));
       setHex("");
     } catch {
       setErrorMessage(
-        "Desculpe, algo deu errado durante a solicitação. Pode haver um problema de conexão ou o servidor pode estar inativo. Por favor, tente novamente mais tarde.",
+        "Desculpe, algo deu errado durante a solicitação. Tente novamente mais tarde.",
       );
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDeleteColor = (colorId) => {
+    deleteSavedColor(colorId, token)
+      .then(() => {
+        setColors(colors.filter((color) => color._id !== colorId));
+      })
+      .catch(() => {
+        setErrorMessage("Não foi possível remover essa cor.");
+      });
+  };
+
+  const handleClearHistory = () => {
+    Promise.all(colors.map((color) => deleteSavedColor(color._id, token)))
+      .then(() => {
+        setColors([]);
+      })
+      .catch(() => {
+        setErrorMessage("Não foi possível limpar o histórico.");
+      });
   };
 
   const handleShowMore = () => {
@@ -95,10 +143,8 @@ function ColorsPage({ isLoggedIn, onLogout, onLoginClick }) {
           {colors.length > 0 && (
             <button
               className="colors-page__clear-button"
-              onClick={() => {
-                setColors([]);
-                localStorage.removeItem("colors");
-              }}
+              type="button"
+              onClick={handleClearHistory}
             >
               Limpar histórico
             </button>
@@ -112,23 +158,25 @@ function ColorsPage({ isLoggedIn, onLogout, onLoginClick }) {
 
           {colors.length > 0 && (
             <section className="colors-page__grid">
-              {colors.slice(0, visibleCards).map((color, index) => (
-                <article
-                  key={`${color.hex.value}-${index}`}
-                  className="colors-page__card"
-                >
+              {colors.slice(0, visibleCards).map((color) => (
+                <article key={color._id} className="colors-page__card">
                   <div
                     className="colors-page__preview"
-                    style={{ backgroundColor: color.hex.value }}
-                  ></div>
+                    style={{ backgroundColor: color.hex }}
+                  />
 
                   <div className="colors-page__info">
-                    <h2>{color.name.value}</h2>
-                    <p>{color.hex.value}</p>
-                    <p>
-                      rgb({color.rgb.r}, {color.rgb.g}, {color.rgb.b})
-                    </p>
+                    <h2>{color.name}</h2>
+                    <p>{color.hex}</p>
                   </div>
+
+                  <button
+                    className="colors-page__delete-button"
+                    type="button"
+                    onClick={() => handleDeleteColor(color._id)}
+                  >
+                    Remover
+                  </button>
                 </article>
               ))}
             </section>
@@ -145,6 +193,7 @@ function ColorsPage({ isLoggedIn, onLogout, onLoginClick }) {
           )}
         </section>
       </main>
+
       <Footer />
     </>
   );
