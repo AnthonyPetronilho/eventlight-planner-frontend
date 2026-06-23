@@ -70,7 +70,6 @@
 }
 
 .library__form-select-wrapper::after {
-  content: "⌄";
   position: absolute;
   right: 18px;
   top: 50%;
