@@ -1,26 +1,56 @@
 # EventLight Planner
 
-EventLight Planner é uma aplicação React desenvolvida para auxiliar profissionais de iluminação e organizadores de eventos na exploração de cores e combinações visuais para diferentes tipos de eventos.
+EventLight Planner é uma aplicação web desenvolvida para auxiliar profissionais de iluminação, DJs, operadores de luz e organizadores de eventos na criação, organização e gerenciamento de cenas de iluminação.
 
-O projeto consome dados em tempo real da The Color API, permitindo pesquisar cores através de códigos HEX e visualizar informações detalhadas sobre cada cor.
+A plataforma permite explorar cores, criar bibliotecas personalizadas de cenas e armazenar preferências de forma segura através de autenticação de usuários.
+
+---
+
+## Demonstração
+
+Frontend:
+https://eventlight-planner-frontend.vercel.app/
+
+Backend API:
+https://eventlight-api.duckdns.org/
 
 ---
 
 ## Funcionalidades
 
-- Pesquisa de cores através de código HEX
-- Integração com API externa (The Color API)
+### Autenticação
+
+- Cadastro de usuários
+- Login seguro com JWT
+- Login automático após cadastro
+- Persistência de sessão
+- Logout
+- Rotas protegidas
+
+### Biblioteca de Cenas
+
+- Criar cenas personalizadas
+- Editar cenas
+- Excluir cenas
+- Biblioteca individual por usuário
+- Armazenamento em banco de dados
+
+### Explorar Cores
+
+- Pesquisa por código HEX
+- Integração com The Color API
 - Histórico de pesquisas
-- Persistência de dados com Local Storage
-- Remoção de histórico
-- Sistema de carregamento (Preloader)
-- Tratamento de erros
-- Renderização dinâmica de resultados
-- Botão "Mostrar Mais"
+- Remoção individual de cores
+- Limpeza completa do histórico
+
+### Interface
+
+- Design responsivo
+- Modal de login
 - Modal de cadastro
-- Página de login
 - Página 404 personalizada
-- Layout responsivo
+- Feedback visual de erros
+- Navegação protegida
 
 ---
 
@@ -30,11 +60,12 @@ O projeto consome dados em tempo real da The Color API, permitindo pesquisar cor
 
 - React
 - React Router DOM
+- Context API
 - JavaScript (ES6+)
 - CSS3
 - Vite
 
-### API
+### Integrações
 
 - The Color API
 
@@ -44,31 +75,10 @@ O projeto consome dados em tempo real da The Color API, permitindo pesquisar cor
 
 ```txt
 src/
-│
 ├── assets/
-├── images/
-├── vendor/
-│
 ├── components/
-│   ├── App/
-│   ├── Button/
-│   ├── FeatureCard/
-│   ├── Footer/
-│   ├── Header/
-│   ├── ModalWithForm/
-│   ├── Navigation/
-│   ├── Preloader/
-│   └── SearchForm/
-│
 ├── pages/
-│   ├── Colors/
-│   ├── Home/
-│   ├── Login/
-│   └── NotFound/
-│
 ├── utils/
-│   └── colorApi.js
-│
 ├── App.jsx
 ├── main.jsx
 └── index.css
@@ -78,70 +88,38 @@ src/
 
 ## Instalação
 
-Clone o repositório:
-
 ```bash
-git clone https://github.com/SEU-USUARIO/eventlight-planner-frontend.git
-```
+git clone https://github.com/AnthonyPetronilho/eventlight-planner-frontend.git
 
-Acesse a pasta:
-
-```bash
 cd eventlight-planner-frontend
-```
 
-Instale as dependências:
-
-```bash
 npm install
-```
 
-Inicie o projeto:
-
-```bash
 npm run dev
 ```
 
 ---
 
-## Scripts Disponíveis
-
-Executar ambiente de desenvolvimento:
+## Scripts
 
 ```bash
 npm run dev
-```
-
-Executar validação do código:
-
-```bash
-npm run lint
-```
-
-Gerar build de produção:
-
-```bash
 npm run build
-```
-
-Visualizar build localmente:
-
-```bash
 npm run preview
+npm run lint
 ```
 
 ---
 
 ## Melhorias Futuras
 
-- Sistema completo de autenticação
-- Cadastro e login de usuários
-- Biblioteca pessoal de cenas
-- Favoritos
+- Compartilhamento de cenas
+- Biblioteca pública
+- Sistema de favoritos
 - Criação de paletas personalizadas
-- Integração com banco de dados MongoDB
-- Backend próprio com Node.js e Express
-- Compartilhamento de cenas de iluminação
+- Exportação para PDF
+- Integração com equipamentos DMX
+- Dashboard com estatísticas
 
 ---
 
@@ -150,15 +128,11 @@ npm run preview
 Anthony Celso Petronilho de Souza
 
 GitHub:
-https://github.com/SEU-USUARIO
+https://github.com/AnthonyPetronilho
 
 LinkedIn:
-https://www.linkedin.com/in/SEU-LINKEDIN
+https://www.linkedin.com/in/anthony-celso-petronilho-de-souza
 
 ---
 
-## Status do Projeto
-
-Em desenvolvimento
-
-Projeto desenvolvido como Projeto Final do Bootcamp de Desenvolvimento Web Full Stack da TripleTen.
+## Projeto desenvolvido durante o Bootcamp de Desenvolvimento Web Full Stack da TripleTen.
