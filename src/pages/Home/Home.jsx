@@ -1,49 +1,27 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import FeatureCard from "../../components/FeatureCard/FeatureCard";
-import ModalWithForm from "../../components/ModalWithForm/ModalWithForm";
 
 import "./Home.css";
 
-function Home() {
-  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-
+function Home({ isLoggedIn, onLogout, onLoginClick, onRegisterClick }) {
   const navigate = useNavigate();
 
   const handleGoToColors = () => {
     navigate("/colors");
   };
 
-  const openRegisterModal = () => {
-    setIsRegisterModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsRegisterModalOpen(false);
-  };
-
-  useEffect(() => {
-    if (!isRegisterModalOpen) return;
-
-    const handleEscClose = (e) => {
-      if (e.key === "Escape") {
-        closeModal();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscClose);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscClose);
-    };
-  }, [isRegisterModalOpen]);
-
   return (
     <>
-      <Header />
+      <Header
+        isLoggedIn={isLoggedIn}
+        onLogout={onLogout}
+        onLoginClick={onLoginClick}
+      />
+
       <main className="home">
         <section className="home__hero">
           <h1 className="home__title">
@@ -51,15 +29,26 @@ function Home() {
             <br />
             Crie momentos
           </h1>
+
           <p className="home__subtitle">
             Organize cenas de iluminação para qualquer tipo de evento
           </p>
+
           <div className="home__buttons">
-            <Button
-              text="Criar conta"
-              type="primary"
-              onClick={openRegisterModal}
-            />
+            {isLoggedIn ? (
+              <Button
+                text="Ir para biblioteca"
+                type="primary"
+                onClick={() => navigate("/library")}
+              />
+            ) : (
+              <Button
+                text="Criar conta"
+                type="primary"
+                onClick={onRegisterClick}
+              />
+            )}
+
             <Button
               text="Explorar cores"
               type="secondary"
@@ -69,32 +58,30 @@ function Home() {
         </section>
 
         <section className="home__features">
-          <FeatureCard
-            title="Biblioteca pessoal"
-            description="Salve e organize suas cenas de iluminação em um só lugar"
-          />
-          <FeatureCard
-            title="Paletas de cores"
-            description="Explore combinações de cores para criar momentos mais marcantes"
-          />
-          <FeatureCard
-            title="Para qualquer evento"
-            description="Monte cenas para casamentos, festas, 15 anos e eventos corporativos"
-          />
+          <Link className="home__feature-link" to="/library">
+            <FeatureCard
+              title="Biblioteca pessoal"
+              description="Salve e organize suas cenas de iluminação em um só lugar"
+            />
+          </Link>
+
+          <Link className="home__feature-link" to="/colors">
+            <FeatureCard
+              title="Paletas de cores"
+              description="Explore combinações de cores para criar momentos mais marcantes"
+            />
+          </Link>
+
+          <Link className="home__feature-link" to="/library">
+            <FeatureCard
+              title="Para qualquer evento"
+              description="Monte cenas para casamentos, festas, 15 anos e eventos corporativos"
+            />
+          </Link>
         </section>
       </main>
-      <Footer />
 
-      <ModalWithForm
-        isOpen={isRegisterModalOpen}
-        title="Criar conta"
-        buttonText="Cadastrar"
-        onClose={closeModal}
-      >
-        <input className="modal__input" type="text" placeholder="Nome" />
-        <input className="modal__input" type="email" placeholder="E-mail" />
-        <input className="modal__input" type="password" placeholder="Senha" />
-      </ModalWithForm>
+      <Footer />
     </>
   );
 }

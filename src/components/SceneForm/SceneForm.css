@@ -1,0 +1,26 @@
+.library__form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.library__form input,
+.library__form textarea,
+.library__form select {
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+.library__form textarea {
+  min-height: 100px;
+}
+
+.library__form button {
+  padding: 14px;
+}

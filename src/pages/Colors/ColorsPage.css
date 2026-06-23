@@ -26,6 +26,7 @@
 
 .colors-page__card {
   display: flex;
+  position: relative;
   gap: 32px;
   align-items: center;
   padding: 32px;
@@ -98,4 +99,26 @@
   color: #b8b8b8;
   font-size: 18px;
   line-height: 1.5;
+}
+
+.colors-page__delete-button {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 107, 107, 0.15);
+  color: #ff6b6b;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.colors-page__delete-button:hover {
+  opacity: 0.8;
+  transform: translateY(-2px);
 }

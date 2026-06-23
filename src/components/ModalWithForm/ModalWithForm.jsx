@@ -1,6 +1,16 @@
 import "./ModalWithForm.css";
 
-function ModalWithForm({ isOpen, title, buttonText, onClose, children }) {
+function ModalWithForm({
+  isOpen,
+  title,
+  buttonText,
+  onClose,
+  onSubmit,
+  children,
+  isSubmitDisabled,
+  footerText,
+  onFooterClick,
+}) {
   return (
     <div
       className={`modal ${isOpen ? "modal_opened" : ""}`}
@@ -21,12 +31,29 @@ function ModalWithForm({ isOpen, title, buttonText, onClose, children }) {
 
         <h2 className="modal__title">{title}</h2>
 
-        <form className="modal__form" onSubmit={(e) => e.preventDefault()}>
+        <form className="modal__form" onSubmit={onSubmit}>
           {children}
 
-          <button className="modal__submit-button" type="submit">
+          <button
+            className="modal__submit-button"
+            type="submit"
+            disabled={isSubmitDisabled}
+          >
             {buttonText}
           </button>
+
+          {footerText && (
+            <p className="modal__footer-text">
+              ou{" "}
+              <button
+                className="modal__footer-button"
+                type="button"
+                onClick={onFooterClick}
+              >
+                {footerText}
+              </button>
+            </p>
+          )}
         </form>
       </div>
     </div>

@@ -32,6 +32,44 @@
   font-weight: 600;
 }
 
+.login__form {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login__input {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  outline: none;
+}
+
+.login__input:focus {
+  border-color: rgba(139, 61, 255, 0.8);
+}
+
+.login__button {
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7b2ff7, #9b4dff);
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login__error {
+  color: #ff6b6b;
+  text-align: center;
+  font-size: 14px;
+}
+
 @media screen and (max-width: 768px) {
   .login__title {
     font-size: 48px;
